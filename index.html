@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="/">
+        <input type="number" id="num1" placeholder="num1" >
+        <input type="number" id="num2" placeholder="num2" >
+        <button type="submit">Submit</button>
+      </form>
+      <button id="fun"></button>
+      
+    <h3>Joke</h3>
+    <p class="joke"></p>
+    <button class="get">get data</button>
+            <!-- Here a loader is created which 
+             loads till response comes -->
+             <div class="d-flex justify-content-center">
+                <div class="spinner-border" 
+                     role="status" id="loading">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <h1>Registered Employees</h1>
+            <!-- table for showing data -->
+            <table id="employees"></table>
+    <script>
+  async function funcName(){
+    const response = await fetch("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw&type=single");
+    var data = await response.json();
+    console.log("datatata",data)
+    if (response) {
+        hideloader();
+    }
+    show(data);
+    }
+    funcName();
+    function hideloader() {
+    document.getElementById('loading').style.display = 'none';
+}
+function show(data) {
+    let tab = 
+        `<tr>
+          <th>Name</th>
+          <th>Office</th>
+          <th>Position</th>
+          <th>Salary</th>
+         </tr>`;
+    
+    // Loop to access all rows 
+
+        tab += `<tr> 
+    <td>${data.joke} </td>
+        
+</tr>`;
+ 
+    // Setting innerHTML as tab variable
+    document.getElementById("employees").innerHTML = tab;
+}
+    </script>
+   <div id="result"></div>
+
+   <script>
+       document.querySelector('button')
+            .addEventListener('click', async (e) => {
+                e.preventDefault();
+                const num1 = document
+                    .querySelector('#num1').value;
+ 
+                const num2 = document
+                    .querySelector('#num2').value;
+                     
+                await fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer abcdxyz',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        num1,
+                        num2,
+                    }),
+                })
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        console.log(data,"reponse post")
+                
+                    });
+
+                    document.querySelector('.get').addEventListener('click', async (e) => {
+                        e.preventDefault();
+                    await fetch('/data')
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        console.log(data,"response")
+                    
+                    });
+                })
+             
+            });
+
+  
+   </script>
+   
+</body>
+</html>
